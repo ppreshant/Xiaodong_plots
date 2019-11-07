@@ -6,4 +6,4 @@
 library(readxl); library(magrittr); library(tidyverse); library(ggrepel); library(rlist)  
 
 # set theme for plotting
-theme_set(theme_bw())
+theme_set(theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()))

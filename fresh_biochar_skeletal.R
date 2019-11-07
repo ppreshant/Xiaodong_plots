@@ -2,26 +2,31 @@
 # Author: Prashant K. 
 # date: 5 Nov 2019
 
-# load required packages
-source('./general_functions.R')
+# User input section ----
 
 # file name input parameters
 file_name <- "../2019 SSSA meeting.xlsx"
 sheet_name <- "Fresh biochar_skeletal"
 
+# axis labels, legend label
+x_axis_label <- bquote('Pyrolysis temperature (' ~ degree*C ~ ')')
+y_axis_label <- bquote('Skeletal density (g' ~ cm^-3 ~ ')')
+legend_title <- 'Feedstock'
+image_format <- 'png' # image format: (png or PDF). Export PDF for high resolution vector image for publication (editable in Inkscape or Illustrator software)
+
+# data read and processing section ----
+
+# load required packages
+source('./general_functions.R')
+
 # read excel file
 data_raw <- read_xlsx(file_name, sheet = sheet_name) # input the excel file
 
 # data formatting
-data_long <- gather(data_raw, feedstock, data, -Temp) # consolidate all feedstock types into long format
-data_long_1 <- data_long %>%  separate(feedstock, c('feedstock', 'data_type'), sep = '_') # split the mean and stdev from feedstock_skeletal
-data_wide <- data_long_1 %>% spread(data_type, data) # split the mean and stdev columns
+data_formatted <- clean_formatting(data_raw) # cleans data, convert to long format and creates standard variable names for x axis, y axis - mean and category
 
-remove(data_raw, data_long, data_long_1)
 # plotting data
+plt <- nice_plot(data_formatted, x_axis_label, y_axis_label, legend_title)
 
-plt <- data_wide %>% ggplot(aes(x = Temp, y = skeletal, colour = feedstock)) + geom_point(size = 2) + geom_errorbar(aes(ymin = skeletal - stdev, ymax = skeletal + stdev, width = 10)) +
-  scale_color_brewer(palette="Dark2") + 
-  ylab(bquote('Skeletal density (g' ~ cm^-3 ~ ')')) + xlab(bquote('Pyrolysis temperature (' ~ degree*C ~ ')')) + labs(shape = 'Feedstock', colour = 'Feedstock')
-
-ggsave('plots/fresh_charcoal_skeletal_density1.png', width = 6, height = 4)
+# save plot (same filename as the sheet name) ; width and height in inches
+ggsave(str_c('plots/', sheet_name, '.', image_format), width = 4, height = 4)

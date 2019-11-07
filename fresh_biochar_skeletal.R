@@ -20,7 +20,7 @@ data_wide <- data_long_1 %>% spread(data_type, data) # split the mean and stdev 
 remove(data_raw, data_long, data_long_1)
 # plotting data
 
-plt <- data_wide %>% ggplot(aes(x = Temp, y = skeletal, shape = feedstock, colour = feedstock)) + geom_point(size = 2) + geom_errorbar(aes(ymin = skeletal - stdev, ymax = skeletal + stdev, width = 10)) +
+plt <- data_wide %>% ggplot(aes(x = Temp, y = skeletal, colour = feedstock)) + geom_point(size = 2) + geom_errorbar(aes(ymin = skeletal - stdev, ymax = skeletal + stdev, width = 10)) +
   scale_color_brewer(palette="Dark2") + 
   ylab(bquote('Skeletal density (g' ~ cm^-3 ~ ')')) + xlab(bquote('Pyrolysis temperature (' ~ degree*C ~ ')')) + labs(shape = 'Feedstock', colour = 'Feedstock')
 

@@ -7,8 +7,7 @@ library(readxl); library(magrittr); library(tidyverse); library(ggrepel); librar
 
 # set theme for plotting
 theme_set(theme_bw() + # simple theme with border and gridlines
-            theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) + # remove gridlines
-            theme(legend.justification = c(0, 1), legend.position = c(0, 1), legend.box.margin=margin(rep(10,4))) # plot legend on top left
+            theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) # remove gridlines
           )
 
 # Data formatting function - cleans data, convert to long format and creates standard variable names for x axis, y axis - mean and category

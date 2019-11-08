@@ -17,8 +17,10 @@ clean_formatting <- function(data_raw)
   data_long <- gather(data_raw, category, data, -x_variable)  # consolidate all category types into long format
   data_long_1 <- data_long %>%  separate(category, c('category', 'data_type'), sep = '_')  # split the mean and stdev from category_skeletal
   data_wide <- data_long_1 %>% spread(data_type, data)  # split the mean and stdev columns
+  
   names(data_wide) -> temp_names # store temporary variable
   names(data_wide)[!str_detect(temp_names, 'x_var|category|stdev')] <- 'mean_value' # rename the y variable mean to be mean_value
+  if(sum(!str_detect(temp_names, 'x_var|category|stdev')) > 1)  unite(data_wide, mean_value, 'mean_value', remove = T, na.rm = F)
   
   remove(data_raw, data_long, data_long_1, temp_names) # remove temporary variables
   data_wide # output
@@ -32,3 +34,12 @@ nice_plot <- function(data_final, x_axis_label, y_axis_label, legend_title)
     ylab(y_axis_label) + xlab(x_axis_label) + labs(shape = legend_title, colour = legend_title)
 }
 
+# modifying plots
+addSmallLegend <- function(myPlot, pointSize = 0.5, textSize = 3, spaceLegend = 0.1) {
+  myPlot +
+    guides(shape = guide_legend(override.aes = list(size = pointSize)),
+           color = guide_legend(override.aes = list(size = pointSize))) +
+    theme(legend.title = element_text(size = textSize), 
+          legend.text  = element_text(size = textSize),
+          legend.key.size = unit(spaceLegend, "lines"))
+}

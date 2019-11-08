@@ -28,9 +28,9 @@ clean_formatting <- function(data_raw)
 }
 
 # plotting
-nice_plot <- function(data_final, x_axis_label, y_axis_label, legend_title)
+nice_plot <- function(data_final, x_axis_label, y_axis_label, legend_title, errorbar_width = 10)
 {
-  plt <- data_final %>% ggplot(aes(x = x_variable, y = mean_value, colour = category)) + geom_point(size = 2) + geom_errorbar(aes(ymin = mean_value - stdev, ymax = mean_value + stdev, width = 10)) +
+  plt <- data_final %>% ggplot(aes(x = x_variable, y = mean_value, colour = category)) + geom_point(size = 2) + geom_errorbar(aes(ymin = mean_value - stdev, ymax = mean_value + stdev, width = errorbar_width)) +
     scale_color_brewer(palette="Dark2") + 
     ylab(y_axis_label) + xlab(x_axis_label) + labs(shape = legend_title, colour = legend_title)
 }

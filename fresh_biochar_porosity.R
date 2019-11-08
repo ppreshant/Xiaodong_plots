@@ -31,3 +31,6 @@ plt <- plt + theme(legend.justification = c(1, 0), legend.position = c(1, 0), le
 
 # save plot (same filename as the sheet name) ; width and height in inches
 ggsave(str_c('plots/', sheet_name, '.', image_format), width = 4, height = 4)
+
+# extra command small legend (play with the parameters)
+# addSmallLegend(plt, 1,6,.2)

@@ -19,10 +19,11 @@ clean_formatting <- function(data_raw)
   data_wide <- data_long_1 %>% spread(data_type, data)  # split the mean and stdev columns
   
   names(data_wide) -> temp_names # store temporary variable
-  names(data_wide)[!str_detect(temp_names, 'x_var|category|stdev')] <- 'mean_value' # rename the y variable mean to be mean_value
-  if(sum(!str_detect(temp_names, 'x_var|category|stdev')) > 1)  unite(data_wide, mean_value, 'mean_value', remove = T, na.rm = F)
+  temp_names[!str_detect(temp_names, 'x_var|category|stdev')] -> redundant_column_names # columns with mean named with different names captured here
+  if(sum(!str_detect(temp_names, 'x_var|category|stdev')) > 1)  unite(data_wide, mean_value, redundant_column_names, remove = T, na.rm = F) # merge the redundant columns and name them mean_value
+  else names(data_wide)[!str_detect(temp_names, 'x_var|category|stdev')] <- 'mean_value' # rename the y variable mean to be mean_value
   
-  remove(data_raw, data_long, data_long_1, temp_names) # remove temporary variables
+  remove(data_raw, data_long, data_long_1, temp_names, redundant_column_names) # remove temporary variables
   data_wide # output
 }
 

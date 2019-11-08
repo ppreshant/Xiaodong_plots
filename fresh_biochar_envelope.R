@@ -24,10 +24,12 @@ data_raw <- read_xlsx(file_name, sheet = sheet_name) # input the excel file
 
 # data formatting
 data_formatted <- clean_formatting(data_raw) # cleans data, convert to long format and creates standard variable names for x axis, y axis - mean and category
+# data_formatted$category %<>% str_wrap(14) # wrapping category labels for smaller legend (canadian new line forest floor)
 
 # plotting data
 plt <- nice_plot(data_formatted, x_axis_label, y_axis_label, legend_title)
-plt <- plt + theme(legend.justification = c(1, 1), legend.position = c(1, 1), legend.box.margin=margin(rep(10,4))) # plot legend on top left
+# plt <- plt + theme(legend.justification = c(1, 1), legend.position = c(1, 1), legend.box.margin=margin(rep(10,4))) # plot legend on top left
+# plt <- addSmallLegend(plt, 1.5, 9, .3) # making legend smaller, doesn;t look good
 
 # save plot (same filename as the sheet name) ; width and height in inches
-ggsave(str_c('plots/', sheet_name, '.', image_format), width = 4, height = 4)
+ggsave(str_c('plots/', sheet_name, '.', image_format), width = 6, height = 4)

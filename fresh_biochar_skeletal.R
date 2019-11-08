@@ -27,7 +27,7 @@ data_formatted <- clean_formatting(data_raw) # cleans data, convert to long form
 
 # plotting data
 plt <- nice_plot(data_formatted, x_axis_label, y_axis_label, legend_title)
-plt <- plt + theme(legend.justification = c(0, 1), legend.position = c(0, 1), legend.box.margin=margin(rep(10,4))) # plot legend on top left
+# plt <- plt + theme(legend.justification = c(0, 1), legend.position = c(0, 1), legend.box.margin=margin(rep(10,4))) # plot legend on top left
 
 # save plot (same filename as the sheet name) ; width and height in inches
-ggsave(str_c('plots/', sheet_name, '.', image_format), width = 4, height = 4)
+ggsave(str_c('plots/', sheet_name, '.', image_format), width = 6, height = 4)

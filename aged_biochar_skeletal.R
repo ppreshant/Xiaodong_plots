@@ -11,7 +11,7 @@ sheet_name <- "Aged biochar_skeletal"
 # axis labels, legend label
 x_axis_label <- bquote('Incubation time (months)')
 y_axis_label <- bquote('Skeletal density (g' ~ cm^-3 ~ ')')
-legend_title <- 'Position'
+legend_title <- 'Placement'
 image_format <- 'png' # image format: (png or PDF). Export PDF for high resolution vector image for publication (editable in Inkscape or Illustrator software)
 
 # data read and processing section ----
@@ -26,7 +26,7 @@ data_raw <- read_xlsx(file_name, sheet = sheet_name, skip = 9) # input the excel
 data_formatted <- clean_formatting(data_raw) # cleans data, convert to long format and creates standard variable names for x axis, y axis - mean and category
 
 # plotting data
-plt <- nice_plot(data_formatted, x_axis_label, y_axis_label, legend_title, errorbar_width = .5) + geom_line()
+plt <- nice_plot(data_formatted, x_axis_label, y_axis_label, legend_title, errorbar_width = .3) + geom_line()
 plt <- plt + theme(legend.justification = c(0, 1), legend.position = c(0, 1), legend.box.margin=margin(rep(10,4))) # plot legend on top left
 
 # save plot (same filename as the sheet name) ; width and height in inches

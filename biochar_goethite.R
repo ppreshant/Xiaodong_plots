@@ -11,7 +11,7 @@ sheet_name <- "Biochar-goethite"
 # axis labels, legend label
 x_axis_label <- bquote('')
 y_axis_label <- bquote('Measurement')
-legend_title <- 'Biochar\nTreatment'
+legend_title <- 'Biochar\ntreatment'
 errorbar_width <- .1
 image_format <- 'png' # image format: (png or PDF). Export PDF for high resolution vector image for publication (editable in Inkscape or Illustrator software)
 
@@ -33,10 +33,15 @@ plt <- data_formatted %>% ggplot(aes(x = '', y = mean_value, shape = x_variable)
   scale_color_brewer(palette="Dark2") + facet_wrap(~ category, scales = 'free_y') + scale_shape_manual(values = c(21,19)) +
   ylab(y_axis_label) + xlab(x_axis_label) + labs(shape = legend_title, colour = legend_title)
 
-# # plotting data : bars
-# plt <- data_formatted %>% ggplot(aes(x = x_variable, y = mean_value)) + geom_col(size = 2) + geom_errorbar(aes(ymin = mean_value - stdev, ymax = mean_value + stdev, width = errorbar_width)) +
-#   scale_color_brewer(palette="Dark2") + facet_wrap(~ category, scales = 'free_y') + 
-#   ylab(y_axis_label) + xlab(x_axis_label) + labs(shape = legend_title, colour = legend_title)
+# plotting data : bars
+plt.bars <- data_formatted %>% ggplot(aes(x = x_variable, y = mean_value, fill = x_variable)) + geom_col(size = 2) + geom_errorbar(aes(ymin = mean_value - stdev, ymax = mean_value + stdev, width = errorbar_width)) +
+  scale_fill_brewer(palette="Dark2") + facet_wrap(~ category, scales = 'free_y') +
+  ylab(y_axis_label) + xlab('Biochar treatment') + labs(fill = legend_title)
+
+# plotting data: horizontal bars
+plt.horizontal.bars <- data_formatted %>% ggplot(aes(x = x_variable, y = mean_value, fill = x_variable)) + geom_col(size = 2) + geom_errorbar(aes(ymin = mean_value - stdev, ymax = mean_value + stdev, width = errorbar_width)) +
+  scale_fill_brewer(palette="Dark2") + facet_wrap(~ category, scales = 'free_x', ncol = 1) + coord_flip() +
+   ylab(y_axis_label) + xlab('Biochar treatment') + labs(fill = legend_title)
 
 # dumbbell plot ; work in progress
 # plt <- data_formatted %>% ggplot(aes(x = x_variable, y = mean_value)) + geom_col(size = 2) + geom_errorbar(aes(ymin = mean_value - stdev, ymax = mean_value + stdev, width = errorbar_width)) +
@@ -44,7 +49,7 @@ plt <- data_formatted %>% ggplot(aes(x = '', y = mean_value, shape = x_variable)
 #   ylab(y_axis_label) + xlab(x_axis_label) + labs(shape = legend_title, colour = legend_title)
 
 # save plot (same filename as the sheet name) ; width and height in inches
-ggsave(str_c('plots/', sheet_name, '.', image_format), width = 5, height = 4)
+ggsave(str_c('plots/', sheet_name, '(horizontal bars).', image_format), plt.horizontal.bars, width = 6, height = 4)
 
 # extra command small legend (play with the parameters)
 # addSmallLegend(plt, 1,6,.2)
